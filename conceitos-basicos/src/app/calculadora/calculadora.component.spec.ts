@@ -1,28 +1,42 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
 import { CalculadoraComponent } from './calculadora.component';
 
 describe('CalculadoraComponent', () => {
   let component: CalculadoraComponent;
-  let fixture: ComponentFixture<CalculadoraComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CalculadoraComponent ]
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CalculadoraComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new CalculadoraComponent();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('deve inicializar valores como null', () => {
+    expect(component.valor1).toBeNull();
+    expect(component.valor2).toBeNull();
+    expect(component.resultado).toBeNull();
+  });
+
+  it('deve somar dois valores corretamente', () => {
+    component.valor1 = 5;
+    component.valor2 = 3;
+    component.cacularSoma();
+    expect(component.resultado).toBe(8);
+  });
+
+  it('deve retornar null se algum valor for null', () => {
+    component.valor1 = null;
+    component.valor2 = 2;
+    component.cacularSoma();
+    expect(component.resultado).toBeNull();
+
+    component.valor1 = 2;
+    component.valor2 = null;
+    component.cacularSoma();
+    expect(component.resultado).toBeNull();
+  });
+
+  it('deve retornar null se algum valor não for número', () => {
+    // @ts-expect-error Testando valor inválido
+    component.valor1 = 'a';
+    component.valor2 = 2;
+    component.cacularSoma();
+    expect(component.resultado).toBeNull();
   });
 });
